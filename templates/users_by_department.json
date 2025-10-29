@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "name": "Development Team Lead",
+      "email": "dev.lead@firma.de",
+      "external_auth_id": "dev.lead",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Senior Developer",
+      "email": "senior.dev@firma.de",
+      "external_auth_id": "senior.dev",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Junior Developer 1",
+      "email": "junior.dev1@firma.de",
+      "external_auth_id": "junior.dev1",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Junior Developer 2",
+      "email": "junior.dev2@firma.de",
+      "external_auth_id": "junior.dev2",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Junior Developer 3",
+      "email": "junior.dev3@firma.de",
+      "external_auth_id": "junior.dev3",
+      "language": "en",
+      "roles": [2]
+    },
+    {
+      "name": "Operations Manager",
+      "email": "ops.manager@firma.de",
+      "external_auth_id": "ops.manager",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "System Administrator",
+      "email": "sysadmin@firma.de",
+      "external_auth_id": "sysadmin",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Network Engineer",
+      "email": "network.eng@firma.de",
+      "external_auth_id": "network.eng",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Database Administrator",
+      "email": "dba@firma.de",
+      "external_auth_id": "dba",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Security Specialist",
+      "email": "security@firma.de",
+      "external_auth_id": "security",
+      "language": "en",
+      "roles": [3]
+    }
+  ]
+}

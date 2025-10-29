@@ -1,0 +1,284 @@
+{
+  "users": [
+    {
+      "name": "IT Administrator",
+      "email": "it.admin@firma.de",
+      "external_auth_id": "it.admin",
+      "language": "de",
+      "roles": [4]
+    },
+    {
+      "name": "Documentation Manager",
+      "email": "doc.manager@firma.de",
+      "external_auth_id": "doc.manager",
+      "language": "de",
+      "roles": [4]
+    },
+    {
+      "name": "Team Lead Development",
+      "email": "dev.lead@firma.de",
+      "external_auth_id": "dev.lead",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Team Lead Operations",
+      "email": "ops.lead@firma.de",
+      "external_auth_id": "ops.lead",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Developer 1",
+      "email": "dev1@firma.de",
+      "external_auth_id": "dev1",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Developer 2",
+      "email": "dev2@firma.de",
+      "external_auth_id": "dev2",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Developer 3",
+      "email": "dev3@firma.de",
+      "external_auth_id": "dev3",
+      "language": "en",
+      "roles": [3]
+    },
+    {
+      "name": "Developer 4",
+      "email": "dev4@firma.de",
+      "external_auth_id": "dev4",
+      "language": "en",
+      "roles": [3]
+    },
+    {
+      "name": "Developer 5",
+      "email": "dev5@firma.de",
+      "external_auth_id": "dev5",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "DevOps Engineer 1",
+      "email": "devops1@firma.de",
+      "external_auth_id": "devops1",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "DevOps Engineer 2",
+      "email": "devops2@firma.de",
+      "external_auth_id": "devops2",
+      "language": "en",
+      "roles": [3]
+    },
+    {
+      "name": "QA Engineer 1",
+      "email": "qa1@firma.de",
+      "external_auth_id": "qa1",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "QA Engineer 2",
+      "email": "qa2@firma.de",
+      "external_auth_id": "qa2",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Technical Writer 1",
+      "email": "tech.writer1@firma.de",
+      "external_auth_id": "tech.writer1",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Technical Writer 2",
+      "email": "tech.writer2@firma.de",
+      "external_auth_id": "tech.writer2",
+      "language": "en",
+      "roles": [3]
+    },
+    {
+      "name": "Product Manager 1",
+      "email": "pm1@firma.de",
+      "external_auth_id": "pm1",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Product Manager 2",
+      "email": "pm2@firma.de",
+      "external_auth_id": "pm2",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Support Team Lead",
+      "email": "support.lead@firma.de",
+      "external_auth_id": "support.lead",
+      "language": "de",
+      "roles": [3]
+    },
+    {
+      "name": "Support Agent 1",
+      "email": "support1@firma.de",
+      "external_auth_id": "support1",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Support Agent 2",
+      "email": "support2@firma.de",
+      "external_auth_id": "support2",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Support Agent 3",
+      "email": "support3@firma.de",
+      "external_auth_id": "support3",
+      "language": "en",
+      "roles": [2]
+    },
+    {
+      "name": "Support Agent 4",
+      "email": "support4@firma.de",
+      "external_auth_id": "support4",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Marketing Manager",
+      "email": "marketing.manager@firma.de",
+      "external_auth_id": "marketing.manager",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Marketing Specialist 1",
+      "email": "marketing1@firma.de",
+      "external_auth_id": "marketing1",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Marketing Specialist 2",
+      "email": "marketing2@firma.de",
+      "external_auth_id": "marketing2",
+      "language": "en",
+      "roles": [2]
+    },
+    {
+      "name": "Sales Manager",
+      "email": "sales.manager@firma.de",
+      "external_auth_id": "sales.manager",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Sales Rep 1",
+      "email": "sales1@firma.de",
+      "external_auth_id": "sales1",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Sales Rep 2",
+      "email": "sales2@firma.de",
+      "external_auth_id": "sales2",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Sales Rep 3",
+      "email": "sales3@firma.de",
+      "external_auth_id": "sales3",
+      "language": "en",
+      "roles": [2]
+    },
+    {
+      "name": "HR Manager",
+      "email": "hr.manager@firma.de",
+      "external_auth_id": "hr.manager",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "HR Specialist",
+      "email": "hr.specialist@firma.de",
+      "external_auth_id": "hr.specialist",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Finance Manager",
+      "email": "finance.manager@firma.de",
+      "external_auth_id": "finance.manager",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Accountant 1",
+      "email": "accountant1@firma.de",
+      "external_auth_id": "accountant1",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Accountant 2",
+      "email": "accountant2@firma.de",
+      "external_auth_id": "accountant2",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Office Manager",
+      "email": "office.manager@firma.de",
+      "external_auth_id": "office.manager",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Trainee 1",
+      "email": "trainee1@firma.de",
+      "external_auth_id": "trainee1",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Trainee 2",
+      "email": "trainee2@firma.de",
+      "external_auth_id": "trainee2",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Trainee 3",
+      "email": "trainee3@firma.de",
+      "external_auth_id": "trainee3",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "External Consultant 1",
+      "email": "consultant1@extern.de",
+      "send_invite": true,
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "External Consultant 2",
+      "email": "consultant2@extern.de",
+      "send_invite": true,
+      "language": "en",
+      "roles": [2]
+    }
+  ]
+}

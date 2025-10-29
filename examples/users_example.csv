@@ -1,0 +1,11 @@
+name,email,ldap_username,language,role
+Max Mustermann,max.mustermann@firma.de,max.mustermann,de,2
+Anna Schmidt,anna.schmidt@firma.de,anna.schmidt,de,3
+John Doe,john.doe@firma.de,john.doe,en,2
+Maria Garcia,maria.garcia@firma.de,maria.garcia,es,2
+Pierre Dupont,pierre.dupont@firma.de,pierre.dupont,fr,3
+Alice Johnson,alice.johnson@firma.de,alice.johnson,en,3
+Bob Smith,bob.smith@firma.de,bob.smith,en,4
+Chen Wei,chen.wei@firma.de,chen.wei,zh,2
+Yuki Tanaka,yuki.tanaka@firma.de,yuki.tanaka,ja,2
+Lars Eriksson,lars.eriksson@firma.de,lars.eriksson,sv,3
