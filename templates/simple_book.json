@@ -1,0 +1,22 @@
+{
+  "books": [
+    {
+      "name": "Simple Documentation",
+      "description": "A simple documentation book",
+      "pages": [
+        {
+          "name": "Introduction",
+          "markdown": "# Introduction\n\nWelcome to our documentation!"
+        },
+        {
+          "name": "Getting Started",
+          "markdown": "# Getting Started\n\n## Installation\n\nFollow these steps..."
+        },
+        {
+          "name": "Advanced Topics",
+          "html": "<h1>Advanced Topics</h1><p>This page uses HTML.</p><ul><li>Topic 1</li><li>Topic 2</li></ul>"
+        }
+      ]
+    }
+  ]
+}

@@ -10,6 +10,7 @@ from rich import print as rprint
 
 from bookstack_api import BookStackClient
 from bookstack_api.exceptions import BookStackAPIError
+from bookstack_api.bulk_import import BulkImporter
 
 console = Console()
 
@@ -563,6 +564,242 @@ def users_delete(user_id, migrate_to):
     except BookStackAPIError as e:
         console.print(f"[red]Error: {e}[/red]")
         raise click.Abort()
+
+
+# ==========================
+# Bulk Import Commands
+# ==========================
+
+@cli.group()
+def bulk():
+    """Bulk import operations from JSON files."""
+    pass
+
+
+@bulk.command("import")
+@click.argument("json_file", type=click.Path(exists=True))
+@click.option("--dry-run", is_flag=True, help="Validate JSON without creating items")
+def bulk_import(json_file, dry_run):
+    """
+    Import structures from JSON file.
+
+    Example: python cli.py bulk import my_structure.json
+    """
+    client = get_client()
+
+    if dry_run:
+        console.print("[yellow]Dry-run mode: validating JSON...[/yellow]")
+        try:
+            with open(json_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            console.print("[green]✓ JSON is valid![/green]")
+
+            # Show what would be created
+            if "users" in data:
+                console.print(f"  Would create {len(data['users'])} users")
+            if "structures" in data:
+                console.print(f"  Would create {len(data['structures'])} structures")
+            if "shelves" in data:
+                console.print(f"  Would create {len(data['shelves'])} shelves")
+            if "books" in data:
+                console.print(f"  Would create {len(data['books'])} books")
+        except json.JSONDecodeError as e:
+            console.print(f"[red]✗ Invalid JSON: {e}[/red]")
+            raise click.Abort()
+        except Exception as e:
+            console.print(f"[red]✗ Error: {e}[/red]")
+            raise click.Abort()
+    else:
+        try:
+            importer = BulkImporter(client)
+            importer.import_from_file(json_file)
+            importer.print_summary()
+            console.print("\n[bold green]Import completed successfully![/bold green]")
+        except Exception as e:
+            console.print(f"[red]Error during import: {e}[/red]")
+            raise click.Abort()
+
+
+@bulk.command("validate")
+@click.argument("json_file", type=click.Path(exists=True))
+def bulk_validate(json_file):
+    """Validate JSON file structure without importing."""
+    console.print(f"[cyan]Validating: {json_file}[/cyan]")
+
+    try:
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        console.print("[green]✓ JSON syntax is valid[/green]")
+
+        # Validate structure
+        warnings = []
+
+        if "users" in data:
+            console.print(f"\n[cyan]Users section:[/cyan] {len(data['users'])} users")
+            for i, user in enumerate(data['users']):
+                if not user.get('name'):
+                    warnings.append(f"User {i+1}: missing 'name'")
+                if not user.get('email'):
+                    warnings.append(f"User {i+1}: missing 'email'")
+
+        if "structures" in data:
+            console.print(f"\n[cyan]Structures section:[/cyan] {len(data['structures'])} items")
+            for i, struct in enumerate(data['structures']):
+                if not struct.get('type'):
+                    warnings.append(f"Structure {i+1}: missing 'type'")
+                if not struct.get('name'):
+                    warnings.append(f"Structure {i+1}: missing 'name'")
+
+        if "shelves" in data:
+            console.print(f"\n[cyan]Shelves section:[/cyan] {len(data['shelves'])} shelves")
+
+        if "books" in data:
+            console.print(f"\n[cyan]Books section:[/cyan] {len(data['books'])} books")
+
+        if warnings:
+            console.print("\n[yellow]Warnings:[/yellow]")
+            for warning in warnings:
+                console.print(f"  [yellow]⚠[/yellow] {warning}")
+        else:
+            console.print("\n[green]✓ No validation warnings[/green]")
+
+    except json.JSONDecodeError as e:
+        console.print(f"[red]✗ Invalid JSON: {e}[/red]")
+        raise click.Abort()
+    except Exception as e:
+        console.print(f"[red]✗ Error: {e}[/red]")
+        raise click.Abort()
+
+
+@bulk.command("example")
+@click.argument("output_file", default="example.json")
+@click.option("--type", "example_type",
+              type=click.Choice(['full', 'users', 'structure', 'simple']),
+              default='full',
+              help="Type of example to generate")
+def bulk_example(output_file, example_type):
+    """Generate example JSON file."""
+
+    examples = {
+        'full': {
+            "users": [
+                {
+                    "name": "Max Mustermann",
+                    "email": "max.mustermann@example.com",
+                    "language": "de",
+                    "external_auth_id": "max.mustermann",
+                    "roles": [2]
+                }
+            ],
+            "structures": [
+                {
+                    "type": "shelf",
+                    "name": "Technical Documentation",
+                    "description": "Complete technical documentation",
+                    "books": [
+                        {
+                            "name": "Installation Guide",
+                            "description": "How to install the software",
+                            "chapters": [
+                                {
+                                    "name": "Prerequisites",
+                                    "description": "What you need before starting",
+                                    "pages": [
+                                        {
+                                            "name": "System Requirements",
+                                            "markdown": "# System Requirements\n\n- CPU: 2+ cores\n- RAM: 4GB+"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "pages": [
+                                {
+                                    "name": "Quick Start",
+                                    "markdown": "# Quick Start\n\nGet started in 5 minutes!"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        'users': {
+            "users": [
+                {
+                    "name": "LDAP User 1",
+                    "email": "user1@example.com",
+                    "external_auth_id": "user1",
+                    "language": "de",
+                    "roles": [2]
+                },
+                {
+                    "name": "LDAP User 2",
+                    "email": "user2@example.com",
+                    "external_auth_id": "user2",
+                    "language": "en",
+                    "roles": [3]
+                },
+                {
+                    "name": "Regular User",
+                    "email": "regular@example.com",
+                    "password": "SecurePassword123!",
+                    "language": "en",
+                    "send_invite": false
+                }
+            ]
+        },
+        'structure': {
+            "structures": [
+                {
+                    "type": "shelf",
+                    "name": "My Documentation Shelf",
+                    "description": "A collection of documentation",
+                    "books": [
+                        {
+                            "name": "User Manual",
+                            "chapters": [
+                                {
+                                    "name": "Chapter 1",
+                                    "pages": [
+                                        {"name": "Page 1", "markdown": "# Content"}
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        'simple': {
+            "books": [
+                {
+                    "name": "Simple Book",
+                    "description": "A simple book example",
+                    "pages": [
+                        {
+                            "name": "Introduction",
+                            "markdown": "# Introduction\n\nWelcome!"
+                        },
+                        {
+                            "name": "Getting Started",
+                            "html": "<h1>Getting Started</h1><p>Let's begin!</p>"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+    data = examples.get(example_type)
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+    console.print(f"[green]✓[/green] Example file created: {output_file}")
+    console.print(f"[cyan]Type:[/cyan] {example_type}")
+    console.print(f"\n[yellow]Edit this file and run:[/yellow]")
+    console.print(f"  python cli.py bulk import {output_file}")
 
 
 # ==========================

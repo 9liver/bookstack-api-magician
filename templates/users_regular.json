@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "password": "SecurePassword123!",
+      "language": "en",
+      "send_invite": false,
+      "roles": [2]
+    },
+    {
+      "name": "Bob Miller",
+      "email": "bob@example.com",
+      "send_invite": true,
+      "language": "en",
+      "roles": [3]
+    }
+  ]
+}

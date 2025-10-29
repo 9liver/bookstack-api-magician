@@ -1,0 +1,125 @@
+{
+  "structures": [
+    {
+      "type": "shelf",
+      "name": "Technical Documentation",
+      "description": "Complete technical documentation for the project",
+      "tags": [
+        {"name": "category", "value": "documentation"},
+        {"name": "version", "value": "1.0"}
+      ],
+      "books": [
+        {
+          "name": "Installation Guide",
+          "description": "Step-by-step installation instructions",
+          "tags": [
+            {"name": "difficulty", "value": "beginner"}
+          ],
+          "chapters": [
+            {
+              "name": "Prerequisites",
+              "description": "What you need before starting",
+              "pages": [
+                {
+                  "name": "System Requirements",
+                  "markdown": "# System Requirements\n\n## Minimum Requirements\n\n- CPU: 2+ cores\n- RAM: 4GB\n- Disk: 20GB free space\n\n## Recommended\n\n- CPU: 4+ cores\n- RAM: 8GB\n- Disk: 50GB free space"
+                },
+                {
+                  "name": "Software Dependencies",
+                  "markdown": "# Software Dependencies\n\n## Required Software\n\n- PHP 8.1+\n- MySQL 5.7+ or MariaDB 10.2+\n- Composer\n- Git\n\n## Optional\n\n- Redis (for caching)\n- LDAP server (for authentication)"
+                }
+              ]
+            },
+            {
+              "name": "Installation Steps",
+              "description": "Follow these steps to install",
+              "pages": [
+                {
+                  "name": "Download and Extract",
+                  "markdown": "# Download and Extract\n\n1. Download the latest release\n2. Extract to your web directory\n3. Set proper permissions"
+                },
+                {
+                  "name": "Database Setup",
+                  "markdown": "# Database Setup\n\n1. Create a new database\n2. Configure database connection\n3. Run migrations"
+                },
+                {
+                  "name": "Configuration",
+                  "markdown": "# Configuration\n\n1. Copy `.env.example` to `.env`\n2. Configure your settings\n3. Generate application key"
+                }
+              ]
+            },
+            {
+              "name": "Post-Installation",
+              "description": "After installation is complete",
+              "pages": [
+                {
+                  "name": "Initial Setup",
+                  "markdown": "# Initial Setup\n\n1. Access the application\n2. Create admin user\n3. Configure basic settings"
+                },
+                {
+                  "name": "Testing",
+                  "markdown": "# Testing Your Installation\n\nVerify everything works correctly."
+                }
+              ]
+            }
+          ],
+          "pages": [
+            {
+              "name": "Quick Start",
+              "markdown": "# Quick Start\n\nGet up and running in 5 minutes!\n\n## Steps\n\n1. Install dependencies\n2. Configure database\n3. Run migrations\n4. Start the server",
+              "tags": [
+                {"name": "quick", "value": "true"}
+              ]
+            }
+          ]
+        },
+        {
+          "name": "User Manual",
+          "description": "Complete user guide",
+          "chapters": [
+            {
+              "name": "Getting Started",
+              "pages": [
+                {
+                  "name": "First Login",
+                  "markdown": "# First Login\n\nHow to log in for the first time."
+                },
+                {
+                  "name": "Interface Overview",
+                  "markdown": "# Interface Overview\n\nUnderstand the user interface."
+                }
+              ]
+            },
+            {
+              "name": "Working with Content",
+              "pages": [
+                {
+                  "name": "Creating Pages",
+                  "markdown": "# Creating Pages\n\nLearn how to create new pages."
+                },
+                {
+                  "name": "Organizing Content",
+                  "markdown": "# Organizing Content\n\nUse shelves and books to organize."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "API Reference",
+          "description": "API documentation",
+          "pages": [
+            {
+              "name": "Authentication",
+              "markdown": "# Authentication\n\nHow to authenticate with the API."
+            },
+            {
+              "name": "Endpoints",
+              "markdown": "# API Endpoints\n\nAvailable API endpoints."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

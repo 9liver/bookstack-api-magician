@@ -1,0 +1,59 @@
+{
+  "structures": [
+    {
+      "type": "shelf",
+      "name": "Project Alpha Documentation",
+      "description": "Complete documentation for Project Alpha",
+      "books": [
+        {
+          "name": "Architecture",
+          "description": "System architecture documentation",
+          "chapters": [
+            {
+              "name": "Overview",
+              "pages": [
+                {
+                  "name": "System Components",
+                  "markdown": "# System Components\n\n## Frontend\n- React\n- TypeScript\n\n## Backend\n- Node.js\n- PostgreSQL"
+                }
+              ]
+            },
+            {
+              "name": "Database Design",
+              "pages": [
+                {
+                  "name": "Entity Relationships",
+                  "markdown": "# Entity Relationships\n\nDescription of database schema..."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Development Guide",
+          "description": "Guide for developers",
+          "chapters": [
+            {
+              "name": "Setup",
+              "pages": [
+                {
+                  "name": "Development Environment",
+                  "markdown": "# Development Environment Setup\n\n1. Clone repository\n2. Install dependencies\n3. Configure environment"
+                }
+              ]
+            },
+            {
+              "name": "Coding Standards",
+              "pages": [
+                {
+                  "name": "Style Guide",
+                  "markdown": "# Code Style Guide\n\n## Naming Conventions\n- Use camelCase for variables\n- Use PascalCase for classes"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

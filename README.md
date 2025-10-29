@@ -20,6 +20,13 @@ Ein umfassendes Python-Tool zur Verwaltung von BookStack über die API.
   - Interaktiver Modus
   - Batch-Operationen via JSON
 
+- 🚀 **Bulk-Import**
+  - JSON-basierte Bulk-Operationen
+  - Verschachtelte Strukturen (Shelf → Books → Chapters → Pages)
+  - LDAP-Benutzer Import
+  - Validierung vor Import
+  - Dry-Run Modus
+
 ## Installation
 
 ```bash
@@ -88,11 +95,79 @@ python cli.py users list
 # Benutzer erstellen
 python cli.py users create --name "Max Mustermann" --email "max@example.com"
 
-# Komplette Struktur exportieren
-python cli.py export --output structure.json
+# Bulk-Operationen
+# Beispiel-Datei generieren
+python cli.py bulk example my_structure.json --type full
 
-# Struktur importieren
-python cli.py import --input structure.json
+# JSON validieren
+python cli.py bulk validate my_structure.json
+
+# Dry-Run durchführen
+python cli.py bulk import my_structure.json --dry-run
+
+# Import durchführen
+python cli.py bulk import my_structure.json
+```
+
+### Bulk-Import via JSON
+
+Erstelle komplette Strukturen mit einer JSON-Datei:
+
+```bash
+# LDAP-Benutzer importieren
+python cli.py bulk import templates/users_ldap.json
+
+# Komplette Dokumentationsstruktur erstellen
+python cli.py bulk import templates/complete_structure.json
+```
+
+**Beispiel JSON für verschachtelte Struktur:**
+
+```json
+{
+  "structures": [
+    {
+      "type": "shelf",
+      "name": "Technical Documentation",
+      "description": "Complete technical docs",
+      "books": [
+        {
+          "name": "Installation Guide",
+          "chapters": [
+            {
+              "name": "Prerequisites",
+              "pages": [
+                {
+                  "name": "System Requirements",
+                  "markdown": "# Requirements\n\n- CPU: 2+ cores"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+**LDAP-Benutzer importieren:**
+
+```json
+{
+  "users": [
+    {
+      "name": "Max Mustermann",
+      "email": "max@example.com",
+      "external_auth_id": "max.mustermann",
+      "language": "de",
+      "roles": [2]
+    }
+  ]
+}
+```
+
+Siehe `templates/` Verzeichnis für weitere Beispiele.
 ```
 
 ## API-Dokumentation

@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "name": "Max Mustermann",
+      "email": "max.mustermann@example.com",
+      "external_auth_id": "max.mustermann",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "Anna Schmidt",
+      "email": "anna.schmidt@example.com",
+      "external_auth_id": "anna.schmidt",
+      "language": "de",
+      "roles": [2]
+    },
+    {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "external_auth_id": "john.doe",
+      "language": "en",
+      "roles": [3]
+    }
+  ]
+}
