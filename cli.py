@@ -807,15 +807,49 @@ def bulk_example(output_file, example_type):
 # ==========================
 
 @cli.command()
-def test():
+@click.option("--detailed", is_flag=True, help="Show detailed diagnostic information")
+@click.option("--debug", is_flag=True, help="Enable debug output")
+def test(detailed, debug):
     """Test API connection."""
     try:
+        # Set debug mode if requested
+        import os
+        if debug:
+            os.environ["DEBUG"] = "true"
+
         client = get_client()
-        if client.test_connection():
-            console.print("[green]Connection successful![/green]")
-            console.print(f"Connected to: {client.base_url}")
+
+        if detailed or not client.test_connection():
+            # Use detailed test
+            result = client.test_connection_detailed()
+
+            if result["success"]:
+                console.print("[green]✓ Connection successful![/green]")
+                console.print(f"[cyan]Connected to:[/cyan] {result['base_url']}")
+                console.print(f"[cyan]API endpoint:[/cyan] {result['endpoint']}")
+            else:
+                console.print("[red]✗ Connection failed![/red]\n")
+                console.print(f"[yellow]Error:[/yellow] {result['error']}")
+                console.print(f"[yellow]Type:[/yellow] {result['error_type']}\n")
+
+                if result.get("error_details"):
+                    console.print("[cyan]Details:[/cyan]")
+                    console.print(f"  {result['error_details']}\n")
+
+                if result["suggestions"]:
+                    console.print("[cyan]Suggestions:[/cyan]")
+                    for suggestion in result["suggestions"]:
+                        console.print(f"  • {suggestion}")
+
+                console.print(f"\n[cyan]Configuration:[/cyan]")
+                console.print(f"  Base URL: {result['base_url']}")
+                console.print(f"  SSL Verify: {result['ssl_verify']}")
+
+                raise click.Abort()
         else:
-            console.print("[red]Connection failed![/red]")
+            console.print("[green]✓ Connection successful![/green]")
+            console.print(f"[cyan]Connected to:[/cyan] {client.base_url}")
+
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
         raise click.Abort()

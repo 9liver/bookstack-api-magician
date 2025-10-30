@@ -30,6 +30,7 @@ class BookStackClient:
         token_secret: Optional[str] = None,
         timeout: int = 30,
         verify_ssl: bool = True,
+        debug: bool = False,
     ):
         """
         Initialize BookStack API client.
@@ -40,6 +41,7 @@ class BookStackClient:
             token_secret: API token secret
             timeout: Request timeout in seconds
             verify_ssl: Whether to verify SSL certificates
+            debug: Enable debug output
         """
         # Load from environment if not provided
         load_dotenv()
@@ -48,7 +50,15 @@ class BookStackClient:
         self.token_id = token_id or os.getenv("BOOKSTACK_TOKEN_ID")
         self.token_secret = token_secret or os.getenv("BOOKSTACK_TOKEN_SECRET")
         self.timeout = timeout
-        self.verify_ssl = verify_ssl
+
+        # SSL verification can be disabled via env var
+        ssl_env = os.getenv("BOOKSTACK_VERIFY_SSL", "").lower()
+        if ssl_env in ("false", "0", "no"):
+            self.verify_ssl = False
+        else:
+            self.verify_ssl = verify_ssl
+
+        self.debug = debug or os.getenv("DEBUG", "").lower() in ("true", "1", "yes")
 
         if not all([self.base_url, self.token_id, self.token_secret]):
             raise AuthenticationError(
@@ -96,6 +106,13 @@ class BookStackClient:
             BookStackAPIError: On API errors
         """
         url = f"{self.base_url}/api/{endpoint.lstrip('/')}"
+
+        if self.debug:
+            print(f"[DEBUG] {method} {url}")
+            if params:
+                print(f"[DEBUG] Params: {params}")
+            if json_data:
+                print(f"[DEBUG] JSON: {json_data}")
 
         try:
             response = self.session.request(
@@ -173,12 +190,31 @@ class BookStackClient:
             except ValueError:
                 return {"data": response.text}
 
+        except requests.exceptions.SSLError as e:
+            error_msg = f"SSL error: {str(e)}\n\nTry setting verify_ssl=False or set BOOKSTACK_VERIFY_SSL=false in .env"
+            if self.debug:
+                print(f"[DEBUG] SSL Error: {e}")
+            raise BookStackAPIError(error_msg)
         except requests.exceptions.Timeout:
-            raise BookStackAPIError("Request timeout.")
-        except requests.exceptions.ConnectionError:
-            raise BookStackAPIError("Connection error. Check your base_url.")
+            error_msg = f"Request timeout after {self.timeout}s. URL: {url}"
+            if self.debug:
+                print(f"[DEBUG] Timeout: {url}")
+            raise BookStackAPIError(error_msg)
+        except requests.exceptions.ConnectionError as e:
+            error_msg = f"Connection error: Cannot reach {self.base_url}\n"
+            error_msg += f"Please check:\n"
+            error_msg += f"  1. URL is correct: {self.base_url}\n"
+            error_msg += f"  2. BookStack is running and accessible\n"
+            error_msg += f"  3. Network/firewall allows connection\n"
+            error_msg += f"\nError details: {str(e)}"
+            if self.debug:
+                print(f"[DEBUG] Connection Error: {e}")
+            raise BookStackAPIError(error_msg)
         except requests.exceptions.RequestException as e:
-            raise BookStackAPIError(f"Request failed: {str(e)}")
+            error_msg = f"Request failed: {str(e)}"
+            if self.debug:
+                print(f"[DEBUG] Request Exception: {e}")
+            raise BookStackAPIError(error_msg)
 
     def get(self, endpoint: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Make GET request."""
@@ -219,3 +255,84 @@ class BookStackClient:
             return True
         except Exception:
             return False
+
+    def test_connection_detailed(self) -> Dict[str, Any]:
+        """
+        Test API connection with detailed error information.
+
+        Returns:
+            Dictionary with connection status and details
+        """
+        result = {
+            "success": False,
+            "base_url": self.base_url,
+            "endpoint": f"{self.base_url}/api/books",
+            "ssl_verify": self.verify_ssl,
+            "error": None,
+            "error_type": None,
+            "suggestions": []
+        }
+
+        # Check if credentials are set
+        if not self.base_url:
+            result["error"] = "BOOKSTACK_URL not set"
+            result["error_type"] = "missing_config"
+            result["suggestions"].append("Set BOOKSTACK_URL in .env file")
+            return result
+
+        if not self.token_id or not self.token_secret:
+            result["error"] = "API credentials not set"
+            result["error_type"] = "missing_credentials"
+            result["suggestions"].append("Set BOOKSTACK_TOKEN_ID and BOOKSTACK_TOKEN_SECRET in .env")
+            return result
+
+        # Try connection
+        try:
+            response = self.get("books")
+            result["success"] = True
+            result["message"] = "Connection successful!"
+            return result
+
+        except AuthenticationError as e:
+            result["error"] = "Authentication failed"
+            result["error_type"] = "auth_error"
+            result["error_details"] = str(e)
+            result["suggestions"].append("Check your API token ID and secret")
+            result["suggestions"].append("Verify tokens are active in BookStack")
+
+        except BookStackAPIError as e:
+            if "SSL error" in str(e):
+                result["error"] = "SSL certificate verification failed"
+                result["error_type"] = "ssl_error"
+                result["error_details"] = str(e)
+                result["suggestions"].append("Add BOOKSTACK_VERIFY_SSL=false to .env for self-signed certs")
+                result["suggestions"].append("Or use verify_ssl=False when creating client")
+
+            elif "Connection error" in str(e):
+                result["error"] = "Cannot connect to BookStack"
+                result["error_type"] = "connection_error"
+                result["error_details"] = str(e)
+                result["suggestions"].append(f"Verify BookStack is running at {self.base_url}")
+                result["suggestions"].append("Check if URL includes http:// or https://")
+                result["suggestions"].append("Check firewall/network settings")
+
+            elif "timeout" in str(e).lower():
+                result["error"] = "Connection timeout"
+                result["error_type"] = "timeout"
+                result["error_details"] = str(e)
+                result["suggestions"].append("BookStack server may be slow or unreachable")
+                result["suggestions"].append("Check network connectivity")
+
+            else:
+                result["error"] = "API request failed"
+                result["error_type"] = "api_error"
+                result["error_details"] = str(e)
+                result["suggestions"].append("Check BookStack logs for more details")
+
+        except Exception as e:
+            result["error"] = "Unexpected error"
+            result["error_type"] = "unknown"
+            result["error_details"] = str(e)
+            result["suggestions"].append("Enable debug mode for more information")
+
+        return result
